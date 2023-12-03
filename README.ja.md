@@ -4,6 +4,6 @@
 
 [![appl-rot13](https://circleci.com/gh/appl-rot13/CSharpCatalog.svg?style=shield)](https://app.circleci.com/pipelines/github/appl-rot13/CSharpCatalog)
 
-## License
+## ライセンス
 
-This software is licensed under the [Unlicense](LICENSE).
+このソフトウェアは[Unlicense](LICENSE)に基づいてライセンスされています。
