@@ -2,7 +2,7 @@
 
 # C# Catalog
 
-[![GitHub Actions](https://github.com/appl-rot13/CSharpCatalog/actions/workflows/build.yml/badge.svg)](https://github.com/appl-rot13/CSharpCatalog/actions)
+[![GitHub Actions](../../actions/workflows/build.yml/badge.svg)](../../actions)
 
 ## ライセンス
 
