@@ -43,4 +43,42 @@ public class StringExtensionsTest
         string.Empty.SquareBracketed().Is(string.Empty);
         ((string?)null).SquareBracketed().IsNull();
     }
+
+    [TestMethod]
+    public void JoinWithCharSeparatorTest()
+    {
+        new[] { "a", "b", "c" }.Join(',').Is("a,b,c");
+        new[] { "a", null, "c" }.Join(',').Is("a,,c");
+
+        Enumerable.Empty<string>().Join(',').Is(string.Empty);
+    }
+
+    [TestMethod]
+    public void JoinWithStringSeparatorTest()
+    {
+        new[] { "a", "b", "c" }.Join(",").Is("a,b,c");
+        new[] { "a", null, "c" }.Join(",").Is("a,,c");
+
+        Enumerable.Empty<string>().Join(",").Is(string.Empty);
+    }
+
+    [TestMethod]
+    public void ContainsAnyTest()
+    {
+        "cdefg".ContainsAny(["abc", "def", "ghi"]).IsTrue();
+        "CDEFG".ContainsAny(["abc", "def", "ghi"]).IsFalse();
+
+        "cdefg".ContainsAny([]).IsFalse();
+    }
+
+    [TestMethod]
+    public void ContainsAnyWithStringComparisonTest()
+    {
+        "cdefg".ContainsAny(["abc", "def", "ghi"], StringComparison.Ordinal).IsTrue();
+        "CDEFG".ContainsAny(["abc", "def", "ghi"], StringComparison.Ordinal).IsFalse();
+        "cdefg".ContainsAny(["abc", "def", "ghi"], StringComparison.OrdinalIgnoreCase).IsTrue();
+        "CDEFG".ContainsAny(["abc", "def", "ghi"], StringComparison.OrdinalIgnoreCase).IsTrue();
+
+        "cdefg".ContainsAny([], StringComparison.Ordinal).IsFalse();
+    }
 }

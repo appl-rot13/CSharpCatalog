@@ -48,4 +48,24 @@ public static class StringExtensions
 
         return $"[{value}]";
     }
+
+    public static string Join<T>(this IEnumerable<T?> values, char separator)
+    {
+        return string.Join(separator, values);
+    }
+
+    public static string Join<T>(this IEnumerable<T?> values, string separator)
+    {
+        return string.Join(separator, values);
+    }
+
+    public static bool ContainsAny(this string value, IEnumerable<string> source)
+    {
+        return source.Any(value.Contains);
+    }
+
+    public static bool ContainsAny(this string value, IEnumerable<string> source, StringComparison comparisonType)
+    {
+        return source.Any(element => value.Contains(element, comparisonType));
+    }
 }
