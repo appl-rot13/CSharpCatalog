@@ -4,6 +4,8 @@
 
 [![GitHub Actions](../../actions/workflows/build.yml/badge.svg)](../../actions)
 
+コードスニペットを蓄積するためのリポジトリ。
+
 ## ライセンス
 
 このソフトウェアは[Unlicense](LICENSE)に基づいてライセンスされています。
