@@ -5,6 +5,8 @@ using CSharpCatalog.Utilities.Extensions;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using Shouldly;
+
 [TestClass]
 public class TaskExtensionsTest
 {
@@ -16,12 +18,12 @@ public class TaskExtensionsTest
         var task = sources.Select(source => source.Task).WhenAll();
         foreach (var source in sources)
         {
-            task.IsCompleted.IsFalse();
+            task.IsCompleted.ShouldBeFalse();
             source.SetResult();
         }
 
         await task;
-        task.IsCompleted.IsTrue();
+        task.IsCompleted.ShouldBeTrue();
     }
 
     [TestMethod]
@@ -33,12 +35,12 @@ public class TaskExtensionsTest
         var task = sources.Select(source => source.Task).WhenAll();
         foreach (var (source, result) in sources.Zip(results))
         {
-            task.IsCompleted.IsFalse();
+            task.IsCompleted.ShouldBeFalse();
             source.SetResult(result);
         }
 
-        (await task).IsStructuralEqual(results);
-        task.IsCompleted.IsTrue();
+        (await task).ShouldBe(results);
+        task.IsCompleted.ShouldBeTrue();
     }
 
     [TestMethod]
@@ -47,15 +49,15 @@ public class TaskExtensionsTest
         TaskCompletionSource[] sources = [new(), new(), new()];
 
         var task = sources.Select(source => source.Task).WhenAny();
-        task.IsCompleted.IsFalse();
+        task.IsCompleted.ShouldBeFalse();
 
         foreach (var source in sources)
         {
             source.SetResult();
-            task.IsCompleted.IsTrue();
+            task.IsCompleted.ShouldBeTrue();
         }
 
-        (await task).Is(sources.First().Task);
+        (await task).ShouldBe(sources.First().Task);
     }
 
     [TestMethod]
@@ -65,15 +67,15 @@ public class TaskExtensionsTest
         bool[] results = [true, false, false];
 
         var task = sources.Select(source => source.Task).WhenAny();
-        task.IsCompleted.IsFalse();
+        task.IsCompleted.ShouldBeFalse();
 
         foreach (var (source, result) in sources.Zip(results))
         {
             source.SetResult(result);
-            task.IsCompleted.IsTrue();
+            task.IsCompleted.ShouldBeTrue();
         }
 
-        (await task).Is(sources.First().Task);
-        (await await task).Is(results.First());
+        (await task).ShouldBe(sources.First().Task);
+        (await await task).ShouldBe(results.First());
     }
 }

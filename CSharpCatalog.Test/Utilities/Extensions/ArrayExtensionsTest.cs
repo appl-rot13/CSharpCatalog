@@ -5,24 +5,26 @@ using CSharpCatalog.Utilities.Extensions;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using Shouldly;
+
 [TestClass]
 public class ArrayExtensionsTest
 {
     [TestMethod]
     public void IsNullOrEmptyTest()
     {
-        new[] { 1, 2, 3 }.IsNullOrEmpty().IsFalse();
+        new[] { 1, 2, 3 }.IsNullOrEmpty().ShouldBeFalse();
 
-        Array.Empty<int>().IsNullOrEmpty().IsTrue();
-        ((int[]?)null).IsNullOrEmpty().IsTrue();
+        Array.Empty<int>().IsNullOrEmpty().ShouldBeTrue();
+        ((int[]?)null).IsNullOrEmpty().ShouldBeTrue();
     }
 
     [TestMethod]
     public void IsAllTrueTest()
     {
-        new[] { true, false }.IsAllTrue().IsFalse();
-        new[] { true, true  }.IsAllTrue().IsTrue();
+        new[] { true, false }.IsAllTrue().ShouldBeFalse();
+        new[] { true, true  }.IsAllTrue().ShouldBeTrue();
 
-        Array.Empty<bool>().IsAllTrue().IsTrue();
+        Array.Empty<bool>().IsAllTrue().ShouldBeTrue();
     }
 }

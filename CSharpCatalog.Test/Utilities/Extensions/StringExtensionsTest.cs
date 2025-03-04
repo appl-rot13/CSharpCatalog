@@ -5,80 +5,82 @@ using CSharpCatalog.Utilities.Extensions;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using Shouldly;
+
 [TestClass]
 public class StringExtensionsTest
 {
     [TestMethod]
     public void SingleQuotedTest()
     {
-        "test".SingleQuoted().Is("'test'");
+        "test".SingleQuoted().ShouldBe("'test'");
 
-        string.Empty.SingleQuoted().Is(string.Empty);
-        ((string?)null).SingleQuoted().IsNull();
+        string.Empty.SingleQuoted().ShouldBe(string.Empty);
+        ((string?)null).SingleQuoted().ShouldBeNull();
     }
 
     [TestMethod]
     public void DoubleQuotedTest()
     {
-        "test".DoubleQuoted().Is("\"test\"");
+        "test".DoubleQuoted().ShouldBe("\"test\"");
 
-        string.Empty.DoubleQuoted().Is(string.Empty);
-        ((string?)null).DoubleQuoted().IsNull();
+        string.Empty.DoubleQuoted().ShouldBe(string.Empty);
+        ((string?)null).DoubleQuoted().ShouldBeNull();
     }
 
     [TestMethod]
     public void ParenthesizedTest()
     {
-        "test".Parenthesized().Is("(test)");
+        "test".Parenthesized().ShouldBe("(test)");
 
-        string.Empty.Parenthesized().Is(string.Empty);
-        ((string?)null).Parenthesized().IsNull();
+        string.Empty.Parenthesized().ShouldBe(string.Empty);
+        ((string?)null).Parenthesized().ShouldBeNull();
     }
 
     [TestMethod]
     public void SquareBracketedTest()
     {
-        "test".SquareBracketed().Is("[test]");
+        "test".SquareBracketed().ShouldBe("[test]");
 
-        string.Empty.SquareBracketed().Is(string.Empty);
-        ((string?)null).SquareBracketed().IsNull();
+        string.Empty.SquareBracketed().ShouldBe(string.Empty);
+        ((string?)null).SquareBracketed().ShouldBeNull();
     }
 
     [TestMethod]
     public void JoinWithCharSeparatorTest()
     {
-        new[] { "a", "b", "c" }.Join(',').Is("a,b,c");
-        new[] { "a", null, "c" }.Join(',').Is("a,,c");
+        new[] { "a", "b", "c" }.Join(',').ShouldBe("a,b,c");
+        new[] { "a", null, "c" }.Join(',').ShouldBe("a,,c");
 
-        Enumerable.Empty<string>().Join(',').Is(string.Empty);
+        Enumerable.Empty<string>().Join(',').ShouldBe(string.Empty);
     }
 
     [TestMethod]
     public void JoinWithStringSeparatorTest()
     {
-        new[] { "a", "b", "c" }.Join(",").Is("a,b,c");
-        new[] { "a", null, "c" }.Join(",").Is("a,,c");
+        new[] { "a", "b", "c" }.Join(",").ShouldBe("a,b,c");
+        new[] { "a", null, "c" }.Join(",").ShouldBe("a,,c");
 
-        Enumerable.Empty<string>().Join(",").Is(string.Empty);
+        Enumerable.Empty<string>().Join(",").ShouldBe(string.Empty);
     }
 
     [TestMethod]
     public void ContainsAnyTest()
     {
-        "cdefg".ContainsAny(["abc", "def", "ghi"]).IsTrue();
-        "CDEFG".ContainsAny(["abc", "def", "ghi"]).IsFalse();
+        "cdefg".ContainsAny(["abc", "def", "ghi"]).ShouldBeTrue();
+        "CDEFG".ContainsAny(["abc", "def", "ghi"]).ShouldBeFalse();
 
-        "cdefg".ContainsAny([]).IsFalse();
+        "cdefg".ContainsAny([]).ShouldBeFalse();
     }
 
     [TestMethod]
     public void ContainsAnyWithStringComparisonTest()
     {
-        "cdefg".ContainsAny(["abc", "def", "ghi"], StringComparison.Ordinal).IsTrue();
-        "CDEFG".ContainsAny(["abc", "def", "ghi"], StringComparison.Ordinal).IsFalse();
-        "cdefg".ContainsAny(["abc", "def", "ghi"], StringComparison.OrdinalIgnoreCase).IsTrue();
-        "CDEFG".ContainsAny(["abc", "def", "ghi"], StringComparison.OrdinalIgnoreCase).IsTrue();
+        "cdefg".ContainsAny(["abc", "def", "ghi"], StringComparison.Ordinal).ShouldBeTrue();
+        "CDEFG".ContainsAny(["abc", "def", "ghi"], StringComparison.Ordinal).ShouldBeFalse();
+        "cdefg".ContainsAny(["abc", "def", "ghi"], StringComparison.OrdinalIgnoreCase).ShouldBeTrue();
+        "CDEFG".ContainsAny(["abc", "def", "ghi"], StringComparison.OrdinalIgnoreCase).ShouldBeTrue();
 
-        "cdefg".ContainsAny([], StringComparison.Ordinal).IsFalse();
+        "cdefg".ContainsAny([], StringComparison.Ordinal).ShouldBeFalse();
     }
 }
