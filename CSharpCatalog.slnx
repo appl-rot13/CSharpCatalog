@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="CSharpCatalog.Test/CSharpCatalog.Test.csproj" />
+  <Project Path="CSharpCatalog/CSharpCatalog.csproj" />
+</Solution>
