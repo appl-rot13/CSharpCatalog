@@ -5,22 +5,28 @@ using System.Diagnostics.CodeAnalysis;
 
 public static class ArrayExtensions
 {
-    public static bool IsNullOrEmpty<T>([NotNullWhen(false)] this T[]? array)
+    extension<T>([NotNullWhen(false)] T[]? array)
     {
-        return array == null || array.Length == 0;
+        public bool IsNullOrEmpty()
+        {
+            return array == null || array.Length == 0;
+        }
     }
 
-    public static bool IsAllTrue(this bool[] array)
+    extension(bool[] array)
     {
-        //return array.All(element => element);
-        foreach (var element in array.AsSpan())
+        public bool IsAllTrue()
         {
-            if (!element)
+            //return array.All(element => element);
+            foreach (var element in array.AsSpan())
             {
-                return false;
+                if (!element)
+                {
+                    return false;
+                }
             }
-        }
 
-        return true;
+            return true;
+        }
     }
 }

@@ -5,67 +5,76 @@ using System.Diagnostics.CodeAnalysis;
 
 public static class StringExtensions
 {
-    [return: NotNullIfNotNull(nameof(value))]
-    public static string? SingleQuoted(this string? value)
+    extension(string? value)
     {
-        if (string.IsNullOrEmpty(value))
+        [return: NotNullIfNotNull(nameof(value))]
+        public string? SingleQuoted()
         {
-            return value;
+            if (string.IsNullOrEmpty(value))
+            {
+                return value;
+            }
+
+            return $"'{value}'";
         }
 
-        return $"'{value}'";
-    }
-
-    [return: NotNullIfNotNull(nameof(value))]
-    public static string? DoubleQuoted(this string? value)
-    {
-        if (string.IsNullOrEmpty(value))
+        [return: NotNullIfNotNull(nameof(value))]
+        public string? DoubleQuoted()
         {
-            return value;
+            if (string.IsNullOrEmpty(value))
+            {
+                return value;
+            }
+
+            return $"\"{value}\"";
         }
 
-        return $"\"{value}\"";
-    }
-
-    [return: NotNullIfNotNull(nameof(value))]
-    public static string? Parenthesized(this string? value)
-    {
-        if (string.IsNullOrEmpty(value))
+        [return: NotNullIfNotNull(nameof(value))]
+        public string? Parenthesized()
         {
-            return value;
+            if (string.IsNullOrEmpty(value))
+            {
+                return value;
+            }
+
+            return $"({value})";
         }
 
-        return $"({value})";
+        [return: NotNullIfNotNull(nameof(value))]
+        public string? SquareBracketed()
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return value;
+            }
+
+            return $"[{value}]";
+        }
     }
 
-    [return: NotNullIfNotNull(nameof(value))]
-    public static string? SquareBracketed(this string? value)
+    extension<T>(IEnumerable<T?> values)
     {
-        if (string.IsNullOrEmpty(value))
+        public string Join(char separator)
         {
-            return value;
+            return string.Join(separator, values);
         }
 
-        return $"[{value}]";
+        public string Join(string separator)
+        {
+            return string.Join(separator, values);
+        }
     }
 
-    public static string Join<T>(this IEnumerable<T?> values, char separator)
+    extension(string value)
     {
-        return string.Join(separator, values);
-    }
+        public bool ContainsAny(IEnumerable<string> source)
+        {
+            return source.Any(value.Contains);
+        }
 
-    public static string Join<T>(this IEnumerable<T?> values, string separator)
-    {
-        return string.Join(separator, values);
-    }
-
-    public static bool ContainsAny(this string value, IEnumerable<string> source)
-    {
-        return source.Any(value.Contains);
-    }
-
-    public static bool ContainsAny(this string value, IEnumerable<string> source, StringComparison comparisonType)
-    {
-        return source.Any(element => value.Contains(element, comparisonType));
+        public bool ContainsAny(IEnumerable<string> source, StringComparison comparisonType)
+        {
+            return source.Any(element => value.Contains(element, comparisonType));
+        }
     }
 }

@@ -3,8 +3,6 @@ namespace CSharpCatalog.Test.Utilities.Extensions;
 
 using CSharpCatalog.Utilities.Extensions;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using Shouldly;
 
 [TestClass]

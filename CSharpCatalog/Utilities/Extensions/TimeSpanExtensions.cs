@@ -3,8 +3,11 @@ namespace CSharpCatalog.Utilities.Extensions;
 
 public static class TimeSpanExtensions
 {
-    public static TimeSpan TruncateToSeconds(this TimeSpan timeSpan)
+    extension(TimeSpan timeSpan)
     {
-        return TimeSpan.FromTicks(timeSpan.Ticks / TimeSpan.TicksPerSecond * TimeSpan.TicksPerSecond);
+        public TimeSpan TruncateToSeconds()
+        {
+            return TimeSpan.FromTicks(timeSpan.Ticks / TimeSpan.TicksPerSecond * TimeSpan.TicksPerSecond);
+        }
     }
 }
