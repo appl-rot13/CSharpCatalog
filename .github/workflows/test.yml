@@ -1,4 +1,4 @@
-name: Build/Test
+name: Test
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build-and-test:
+  test:
     runs-on: ubuntu-slim
     permissions:
       contents: read
