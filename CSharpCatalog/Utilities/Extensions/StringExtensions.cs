@@ -1,5 +1,4 @@
-﻿
-namespace CSharpCatalog.Utilities.Extensions;
+﻿namespace CSharpCatalog.Utilities.Extensions;
 
 using System.Diagnostics.CodeAnalysis;
 

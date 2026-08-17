@@ -1,8 +1,6 @@
-﻿
-namespace CSharpCatalog.Test.Utilities.Extensions;
+﻿namespace CSharpCatalog.Test.Utilities.Extensions;
 
 using CSharpCatalog.Utilities.Extensions;
-
 using Shouldly;
 
 [TestClass]
