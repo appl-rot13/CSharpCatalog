@@ -64,16 +64,16 @@ public static class StringExtensions
         }
     }
 
-    extension(string value)
+    extension(string text)
     {
-        public bool ContainsAny(IEnumerable<string> source)
+        public bool ContainsAny(IEnumerable<string> keywords)
         {
-            return source.Any(value.Contains);
+            return keywords.Any(text.Contains);
         }
 
-        public bool ContainsAny(IEnumerable<string> source, StringComparison comparisonType)
+        public bool ContainsAny(IEnumerable<string> keywords, StringComparison comparisonType)
         {
-            return source.Any(element => value.Contains(element, comparisonType));
+            return keywords.Any(keyword => text.Contains(keyword, comparisonType));
         }
     }
 }

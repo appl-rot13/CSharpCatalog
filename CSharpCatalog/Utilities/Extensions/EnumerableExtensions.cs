@@ -7,7 +7,7 @@ public static class EnumerableExtensions
     {
         public IEnumerable<T> ExcludeNull()
         {
-            return source.Where(element => element.HasValue).Select(element => element!.Value);
+            return source.OfType<T>();
         }
     }
 
@@ -16,7 +16,7 @@ public static class EnumerableExtensions
     {
         public IEnumerable<T> ExcludeNull()
         {
-            return source.Where(element => element != null)!;
+            return source.OfType<T>();
         }
     }
 }
