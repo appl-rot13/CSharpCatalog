@@ -7,20 +7,22 @@ using Shouldly;
 public class ArrayExtensionsTest
 {
     [TestMethod]
-    public void IsNullOrEmptyTest()
+    [DataRow(new int[] { 1, 2, 3 }, false)]
+    [DataRow(new int[] {         },  true)]
+    [DataRow(null                 ,  true)]
+    public void IsNullOrEmpty_ReturnsExpected(int[]? array, bool expected)
     {
-        new[] { 1, 2, 3 }.IsNullOrEmpty().ShouldBeFalse();
-
-        Array.Empty<int>().IsNullOrEmpty().ShouldBeTrue();
-        ((int[]?)null).IsNullOrEmpty().ShouldBeTrue();
+        array.IsNullOrEmpty().ShouldBe(expected);
     }
 
     [TestMethod]
-    public void IsAllTrueTest()
+    [DataRow(new bool[] { false       }, false)]
+    [DataRow(new bool[] {  true       },  true)]
+    [DataRow(new bool[] { false, true }, false)]
+    [DataRow(new bool[] {  true, true },  true)]
+    [DataRow(new bool[] {             },  true)]
+    public void IsAllTrue_ReturnsExpected(bool[] array, bool expected)
     {
-        new[] { true, false }.IsAllTrue().ShouldBeFalse();
-        new[] { true, true  }.IsAllTrue().ShouldBeTrue();
-
-        Array.Empty<bool>().IsAllTrue().ShouldBeTrue();
+        array.IsAllTrue().ShouldBe(expected);
     }
 }

@@ -6,15 +6,39 @@ using Shouldly;
 [TestClass]
 public class EnumerableExtensionsTest
 {
-    [TestMethod]
-    public void ExcludeNullStructTest()
+    public static IEnumerable<(int?[], int[])> ExcludeNullValueTypeTestCases()
     {
-        new int?[] { 1, null, 2, null, 3 }.ExcludeNull().ShouldBe([1, 2, 3]);
+        return
+        [
+            ([                ], []),
+            ([null, null, null], []),
+            ([1,       2,       3], [1, 2, 3]),
+            ([1, null, 2, null, 3], [1, 2, 3]),
+        ];
     }
 
     [TestMethod]
-    public void ExcludeNullClassTest()
+    [DynamicData(nameof(ExcludeNullValueTypeTestCases))]
+    public void ExcludeNull_ValueType_ReturnsNonNullValues(IEnumerable<int?> source, IEnumerable<int> expected)
     {
-        new[] { "1", null, "2", null, "3" }.ExcludeNull().ShouldBe(["1", "2", "3"]);
+        source.ExcludeNull().ShouldBe(expected);
+    }
+
+    public static IEnumerable<(string?[], string[])> ExcludeNullReferenceTypeTestCases()
+    {
+        return
+        [
+            ([                ], []),
+            ([null, null, null], []),
+            (["a",       "b",       "c"], ["a", "b", "c"]),
+            (["a", null, "b", null, "c"], ["a", "b", "c"]),
+        ];
+    }
+
+    [TestMethod]
+    [DynamicData(nameof(ExcludeNullReferenceTypeTestCases))]
+    public void ExcludeNull_ReferenceType_ReturnsNonNullValues(IEnumerable<string?> source, IEnumerable<string> expected)
+    {
+        source.ExcludeNull().ShouldBe(expected);
     }
 }

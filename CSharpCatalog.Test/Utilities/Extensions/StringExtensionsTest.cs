@@ -7,76 +7,96 @@ using Shouldly;
 public class StringExtensionsTest
 {
     [TestMethod]
-    public void SingleQuotedTest()
+    [DataRow("test", "'test'")]
+    [DataRow(" ", "' '")]
+    [DataRow("", "")]
+    [DataRow(null, null)]
+    public void SingleQuoted_ReturnsExpected(string? input, string? expected)
     {
-        "test".SingleQuoted().ShouldBe("'test'");
-
-        string.Empty.SingleQuoted().ShouldBe(string.Empty);
-        ((string?)null).SingleQuoted().ShouldBeNull();
+        input.SingleQuoted().ShouldBe(expected);
     }
 
     [TestMethod]
-    public void DoubleQuotedTest()
+    [DataRow("test", "\"test\"")]
+    [DataRow(" ", "\" \"")]
+    [DataRow("", "")]
+    [DataRow(null, null)]
+    public void DoubleQuoted_ReturnsExpected(string? input, string? expected)
     {
-        "test".DoubleQuoted().ShouldBe("\"test\"");
-
-        string.Empty.DoubleQuoted().ShouldBe(string.Empty);
-        ((string?)null).DoubleQuoted().ShouldBeNull();
+        input.DoubleQuoted().ShouldBe(expected);
     }
 
     [TestMethod]
-    public void ParenthesizedTest()
+    [DataRow("test", "(test)")]
+    [DataRow(" ", "( )")]
+    [DataRow("", "")]
+    [DataRow(null, null)]
+    public void Parenthesized_ReturnsExpected(string? input, string? expected)
     {
-        "test".Parenthesized().ShouldBe("(test)");
-
-        string.Empty.Parenthesized().ShouldBe(string.Empty);
-        ((string?)null).Parenthesized().ShouldBeNull();
+        input.Parenthesized().ShouldBe(expected);
     }
 
     [TestMethod]
-    public void SquareBracketedTest()
+    [DataRow("test", "[test]")]
+    [DataRow(" ", "[ ]")]
+    [DataRow("", "")]
+    [DataRow(null, null)]
+    public void SquareBracketed_ReturnsExpected(string? input, string? expected)
     {
-        "test".SquareBracketed().ShouldBe("[test]");
+        input.SquareBracketed().ShouldBe(expected);
+    }
 
-        string.Empty.SquareBracketed().ShouldBe(string.Empty);
-        ((string?)null).SquareBracketed().ShouldBeNull();
+    public static IEnumerable<(string?[], char, string)> JoinWithCharSeparatorTestCases()
+    {
+        return
+        [
+            (["a", "b" , "c"], ',', "a,b,c"     ),
+            (["a", null, "c"], ',', "a,,c"      ),
+            ([              ], ',', string.Empty),
+        ];
     }
 
     [TestMethod]
-    public void JoinWithCharSeparatorTest()
+    [DynamicData(nameof(JoinWithCharSeparatorTestCases))]
+    public void Join_WithCharSeparator_ReturnsExpected(IEnumerable<string?> source, char separator, string expected)
     {
-        new[] { "a", "b", "c" }.Join(',').ShouldBe("a,b,c");
-        new[] { "a", null, "c" }.Join(',').ShouldBe("a,,c");
+        source.Join(separator).ShouldBe(expected);
+    }
 
-        Enumerable.Empty<string>().Join(',').ShouldBe(string.Empty);
+    public static IEnumerable<(string?[], string, string)> JoinWithStringSeparatorTestCases()
+    {
+        return
+        [
+            (["a", "b" , "c"], ",", "a,b,c"     ),
+            (["a", null, "c"], ",", "a,,c"      ),
+            ([              ], ",", string.Empty),
+        ];
     }
 
     [TestMethod]
-    public void JoinWithStringSeparatorTest()
+    [DynamicData(nameof(JoinWithStringSeparatorTestCases))]
+    public void Join_WithStringSeparator_ReturnsExpected(IEnumerable<string?> source, string separator, string expected)
     {
-        new[] { "a", "b", "c" }.Join(",").ShouldBe("a,b,c");
-        new[] { "a", null, "c" }.Join(",").ShouldBe("a,,c");
-
-        Enumerable.Empty<string>().Join(",").ShouldBe(string.Empty);
+        source.Join(separator).ShouldBe(expected);
     }
 
     [TestMethod]
-    public void ContainsAnyTest()
+    [DataRow("cdefg", new string[] { "abc", "def", "ghi" },  true)]
+    [DataRow("CDEFG", new string[] { "abc", "def", "ghi" }, false)]
+    [DataRow("cdefg", new string[] {                     }, false)]
+    public void ContainsAny_ReturnsExpected(string text, IEnumerable<string> keywords, bool expected)
     {
-        "cdefg".ContainsAny(["abc", "def", "ghi"]).ShouldBeTrue();
-        "CDEFG".ContainsAny(["abc", "def", "ghi"]).ShouldBeFalse();
-
-        "cdefg".ContainsAny([]).ShouldBeFalse();
+        text.ContainsAny(keywords).ShouldBe(expected);
     }
 
     [TestMethod]
-    public void ContainsAnyWithStringComparisonTest()
+    [DataRow("cdefg", new string[] { "abc", "def", "ghi" }, StringComparison.Ordinal          ,  true)]
+    [DataRow("CDEFG", new string[] { "abc", "def", "ghi" }, StringComparison.Ordinal          , false)]
+    [DataRow("cdefg", new string[] { "abc", "def", "ghi" }, StringComparison.OrdinalIgnoreCase,  true)]
+    [DataRow("CDEFG", new string[] { "abc", "def", "ghi" }, StringComparison.OrdinalIgnoreCase,  true)]
+    [DataRow("cdefg", new string[] {                     }, StringComparison.Ordinal          , false)]
+    public void ContainsAny_WithStringComparison_ReturnsExpected(string text, IEnumerable<string> keywords, StringComparison comparisonType, bool expected)
     {
-        "cdefg".ContainsAny(["abc", "def", "ghi"], StringComparison.Ordinal).ShouldBeTrue();
-        "CDEFG".ContainsAny(["abc", "def", "ghi"], StringComparison.Ordinal).ShouldBeFalse();
-        "cdefg".ContainsAny(["abc", "def", "ghi"], StringComparison.OrdinalIgnoreCase).ShouldBeTrue();
-        "CDEFG".ContainsAny(["abc", "def", "ghi"], StringComparison.OrdinalIgnoreCase).ShouldBeTrue();
-
-        "cdefg".ContainsAny([], StringComparison.Ordinal).ShouldBeFalse();
+        text.ContainsAny(keywords, comparisonType).ShouldBe(expected);
     }
 }

@@ -7,9 +7,13 @@ using Shouldly;
 public class TimeSpanExtensionsTest
 {
     [TestMethod]
-    public void TruncateToSecondsTest()
+    [DataRow(0.999, 0)]
+    [DataRow(1.000, 1)]
+    [DataRow(1.999, 1)]
+    [DataRow(2.000, 2)]
+    public void TruncateToSeconds_ReturnsTruncatedValue(double inputSeconds, long expectedSeconds)
     {
-        TimeSpan.FromSeconds(1.000).TruncateToSeconds().ShouldBe(TimeSpan.FromSeconds(1));
-        TimeSpan.FromSeconds(1.234).TruncateToSeconds().ShouldBe(TimeSpan.FromSeconds(1));
+        var actual = TimeSpan.FromSeconds(inputSeconds).TruncateToSeconds();
+        actual.ShouldBe(TimeSpan.FromSeconds(expectedSeconds));
     }
 }
