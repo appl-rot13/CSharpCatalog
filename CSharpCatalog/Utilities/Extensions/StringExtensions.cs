@@ -51,6 +51,19 @@ public static class StringExtensions
         }
     }
 
+    extension(IEnumerable<string?> values)
+    {
+        public IEnumerable<string> ExcludeNullOrEmpty()
+        {
+            return values.Where(value => !string.IsNullOrEmpty(value))!;
+        }
+
+        public IEnumerable<string> ExcludeNullOrWhiteSpace()
+        {
+            return values.Where(value => !string.IsNullOrWhiteSpace(value))!;
+        }
+    }
+
     extension<T>(IEnumerable<T?> values)
     {
         public string Join(char separator)

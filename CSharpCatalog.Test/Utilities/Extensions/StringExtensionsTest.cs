@@ -46,13 +46,53 @@ public class StringExtensionsTest
         input.SquareBracketed().ShouldBe(expected);
     }
 
+    public static IEnumerable<(string?[], string[])> ExcludeNullOrEmptyTestCases()
+    {
+        return
+        [
+            (["a" , "b" , "c"], ["a", "b", "c"]),
+            ([null, "b" , "c"], ["b", "c"]),
+            (["a" , ""  , "c"], ["a", "c"]),
+            (["a" , "b" , " "], ["a", "b", " "]),
+            ([""  , null     ], []),
+            ([               ], []),
+        ];
+    }
+
+    [TestMethod]
+    [DynamicData(nameof(ExcludeNullOrEmptyTestCases))]
+    public void ExcludeNullOrEmpty_ReturnsExpected(string?[] input, string[] expected)
+    {
+        input.ExcludeNullOrEmpty().ShouldBe(expected);
+    }
+
+    public static IEnumerable<(string?[], string[])> ExcludeNullOrWhiteSpaceTestCases()
+    {
+        return
+        [
+            (["a" , "b" , "c"], ["a", "b", "c"]),
+            ([null, "b" , "c"], ["b", "c"]),
+            (["a" , ""  , "c"], ["a", "c"]),
+            (["a" , "b" , " "], ["a", "b"]),
+            ([" "  , null, ""], []),
+            ([               ], []),
+        ];
+    }
+
+    [TestMethod]
+    [DynamicData(nameof(ExcludeNullOrWhiteSpaceTestCases))]
+    public void ExcludeNullOrWhiteSpace_ReturnsExpected(string?[] input, string[] expected)
+    {
+        input.ExcludeNullOrWhiteSpace().ShouldBe(expected);
+    }
+
     public static IEnumerable<(string?[], char, string)> JoinWithCharSeparatorTestCases()
     {
         return
         [
-            (["a", "b" , "c"], ',', "a,b,c"     ),
-            (["a", null, "c"], ',', "a,,c"      ),
-            ([              ], ',', string.Empty),
+            (["a", "b" , "c"], ',', "a,b,c"),
+            (["a", null, "c"], ',', "a,,c" ),
+            ([              ], ',', ""     ),
         ];
     }
 
@@ -67,9 +107,9 @@ public class StringExtensionsTest
     {
         return
         [
-            (["a", "b" , "c"], ",", "a,b,c"     ),
-            (["a", null, "c"], ",", "a,,c"      ),
-            ([              ], ",", string.Empty),
+            (["a", "b" , "c"], ",", "a,b,c"),
+            (["a", null, "c"], ",", "a,,c" ),
+            ([              ], ",", ""     ),
         ];
     }
 
